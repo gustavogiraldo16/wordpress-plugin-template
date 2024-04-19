@@ -1,6 +1,6 @@
 <?php
 
-class Principal {
+class PluginManager {
 
     // Function for activation
     static function template_activate() {

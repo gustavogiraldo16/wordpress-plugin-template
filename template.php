@@ -38,44 +38,13 @@ define( 'TEMPLATE_CANTIDAD_ELEMENTOS', 12 );
 define( 'TEMPLATE_VERSION', '1.0.0' );
 
 // Include classes
-require_once TEMPLATE_PLUGIN_DIR . 'classes/Principal.php';
+require_once TEMPLATE_PLUGIN_DIR . 'classes/PluginManager.php';
 
 // Hook for activation
-register_activation_hook( TEMPLATE_DIR, ['Principal', 'template_activate'] );
+register_activation_hook( TEMPLATE_DIR, [PluginManager::class, 'template_activate'] );
 
 // Hook for deactivation
-register_deactivation_hook( TEMPLATE_DIR, ['Principal', 'template_deactivate'] );
+register_deactivation_hook( TEMPLATE_DIR, [PluginManager::class, 'template_deactivate'] );
 
-
-// Función para hacer la llamada a la API y renderizar la respuesta como HTML
-function renderizar_api_html() {
-    // URL de la API
-    $api_url = 'http://localhost:8080/arrendasoft/service/v2/public/simple-search/template/template1';
-
-    // Realizar la llamada GET a la API
-    $response = wp_remote_get( $api_url );
-
-    // Verificar si la llamada fue exitosa
-    if ( is_wp_error( $response ) ) {
-        // Si hay un error, mostrar un mensaje de error
-        echo '<p>Ocurrió un error al obtener los datos de la API.</p>';
-    } else {
-        // Si la llamada fue exitosa, obtener el cuerpo de la respuesta
-        $data = wp_remote_retrieve_body( $response );
-
-        // Decodificar el JSON de la respuesta
-        // $data = json_decode( $body );
-
-        // Verificar si la decodificación fue exitosa
-        if ( $data ) {
-            // Si hay datos, renderizarlos como HTML
-            echo $data;
-        } else {
-            // Si no se pudieron decodificar los datos, mostrar un mensaje de error
-            echo '<p>No se pudieron obtener los datos de la API.</p>';
-        }
-    }
-}
-
-// Agregar un shortcode para mostrar los datos de la API
-add_shortcode( 'template', 'renderizar_api_html' );
+// Incluir el archivo de funciones para renderizar_api_html
+require_once TEMPLATE_PLUGIN_DIR . 'includes/renderizar_api_html.php';
